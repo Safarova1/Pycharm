@@ -192,7 +192,7 @@ class LoginWindow(Frame):
 
 
 class Avtorizaciya(Frame):
-    def __init__(self, master=None):
+    def __init__(self, master = None):
         super().__init__(master)
         self.master = master
         self.master.title('АВТОПРОКАТ')
@@ -236,12 +236,6 @@ class Avtorizaciya(Frame):
         self.check = Checkbutton(self.master, text='показать пароль', variable=var, command=click_checkbutton)
         self.check.place(x=610, y=330)
 
-        self.btn_req = Button(self.master,text='        ВХОД       ' , bg='#F7D91E', fg='black', borderwidth=10,command=self.vxod)
-        self.btn_req.place(x=380, y=500)
-
-        self.btn_req = Button(self.master, text='   ЗАРЕГИСТРИРОВАТЬСЯ   ',fg='#F7D91E', bg='#000', borderwidth=10,command=self.str1)
-        self.btn_req.place(x=560, y=500)
-
 
 
         self.error_imya = Label(self.master, text='', foreground="yellow", background='#000', wraplength=600)
@@ -250,28 +244,29 @@ class Avtorizaciya(Frame):
         self.error_parol = Label(self.master, text='', foreground="yellow", background='#000', wraplength=600)
         self.error_parol.place(x=380, y=360)
 
-    def vxod(self):
-        a = 1
-        c = 1
-        if self.imya.get() == '':
-            self.error_imya['text'] = 'Поле Имя обязательно для заполнения'
-            a += 1
-        else:
-            self.error_imya['text'] = ''
-            a = 0
+
+        def vxod():
+            a = 1
+            c = 1
+            if self.imya.get() == '':
+                self.error_imya['text'] = 'Поле Имя обязательно для заполнения'
+                a += 1
+            else:
+                self.error_imya['text'] = ''
+                a = 0
 
 
-        if self.parol.get() == '':
-            self.error_parol['text'] = 'Поле Пароль обязательно для заполнения'
-            c += 1
-        else:
-            self.error_parol['text'] = ''
-            c = 0
+            if self.parol.get() == '':
+                self.error_parol['text'] = 'Поле Пароль обязательно для заполнения'
+                c += 1
+            else:
+                self.error_parol['text'] = ''
+                c = 0
 
-        if a == 0 and c == 0:
-            self.btn_req.config(fg='black', bg='#F7D91E')
+            if a == 0 and c == 0:
+                self.btn_req.config(fg='black', bg='#F7D91E')
 
-            self.count = 0
+                self.count = 0
 
             req_l = r"file\login.txt"
             req_p = r"file\password.txt"
@@ -285,7 +280,10 @@ class Avtorizaciya(Frame):
                             for i in range(0,self.count):
                                 a=Filep.readline()
                             if a==password:
-                                self.admin()
+                                self.master.withdraw()
+                                self.new_InfoWindow = Toplevel(self.master)
+                                self.info_window = Admin(self.new_InfoWindow)
+
                                 self.imya.delete(0, END)
                                 self.parol.delete(0, END)
                             else:
@@ -296,73 +294,71 @@ class Avtorizaciya(Frame):
                         showinfo(title='Неверные данные', message='Неправильное имя пользователя или пароль')
                         self.imya.delete(0, END)
                         self.parol.delete(0, END)
-    def admin(self):
-        self.master.withdraw()
-        self.new_InfoWindow = Toplevel(self.master)
-        self.info_window = Admin(self.new_InfoWindow)
 
-    def str1(self):
-        self.master.withdraw()
-        self.new_InfoWindow = Toplevel(self.master)
-        self.info_window = LoginWindow(self.new_InfoWindow)
+
+        self.btn_req = Button(self.master, text='        ВХОД       ', bg='#F7D91E', fg='black', borderwidth=10,
+                              command=vxod)
+        self.btn_req.place(x=380, y=500)
+
+
+
+        def str1():
+            self.master.withdraw()
+            self.new_InfoWindow = Toplevel(self.master)
+            self.info_window = LoginWindow(self.new_InfoWindow)
+
+
+
+
+
+        self.btn_req = Button(self.master, text='   ЗАРЕГИСТРИРОВАТЬСЯ   ', fg='#F7D91E', bg='#000', borderwidth=10,
+                              command=str1)
+        self.btn_req.place(x=560, y=500)
+
+
 
 
 class Admin(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.master.title('АВТОПРОКАТ')
+        self.master.title('АВТОПРОКАТishka')
         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
         self.master.config(bg='#000000')
         self.master.geometry('1150x680+120+10')
         self.master.resizable(False, False)
-        self.create_widgets()
+        self.create_widgit()
 
-
-
-    def create_widgets(self):
-        # image = Image.open(r"icon_and_image\a.jpg")
-        # resize_image = image.resize((1160, 690))
-        # img = ImageTk.PhotoImage(resize_image)
-        #
-        # label1 = Label(image=img)
-        # label1.image = img
-        # label1.pack()
-
-
-
+    def create_widgit(self):
         def selected(event):
-            # получаем выделенный элемент
+
             selection = combobox.get()
-            if selection=="Добавление информации или же удаление информации":
+            if selection=="Добавление информации или же удаление информации и организация поиска информации":
                 label["text"] = f"Выбрал : {selection}"
                 def click():
                     self.master.withdraw()
                     self.new_InfoWindow = Toplevel(self.master)
                     self.info_window = dobavit_delete(self.new_InfoWindow)
 
-            elif selection=="Организация поиска информации":
-                label["text"] = f"Выбрал : {selection}"
-                def click():
-                    self.master.withdraw()
-                    self.new_InfoWindow = Toplevel(self.master)
-                    self.info_window = poisk(self.new_InfoWindow)
-
+                button = Button(text="Открыть", fg='#000', bg='#F7D91E', borderwidth=3, command=click)
+                button.place(x=800, y=45)
             elif selection=="Показ всех записей на экран":
                 label["text"] = f"Выбрал : {selection}"
                 def click():
                     self.master.withdraw()
                     self.new_InfoWindow = Toplevel(self.master)
                     self.info_window = pokaz(self.new_InfoWindow)
-            button = Button(text="Открыть", fg='#000', bg='#F7D91E', borderwidth=3,command=click)
-            button.place(x=600, y=50)
 
-        languages = ["Добавление информации или же удаление информации", "Организация поиска информации", "Показ всех записей на экран"]
+                button = Button(text="Открыть", fg='#000', bg='#F7D91E', borderwidth=3, command=click)
+                button.place(x=800, y=45)
+
+
+        languages = ["Добавление информации или же удаление информации и организация поиска информации", "Показ всех записей на экран"]
         label = ttk.Label(text='Выбирай : ',background='black', foreground='#F7D91E')
         label.place(x=50, y=20)
 
         combobox = ttk.Combobox(values=languages, state="readonly")
-        combobox.place(x=50, y=50,width=400)
+        combobox.place(x=50, y=50,width=700)
         combobox.bind("<<ComboboxSelected>>", selected)
 
 
@@ -527,7 +523,7 @@ class dobavit_delete(Frame):
 
 
         self.btn_req = Button(self.master, text='   Добавить информацию   ', fg='#F7D91E', bg='#000', borderwidth=3,command=input_record)
-        self.btn_req.place(x=935, y=350)
+        self.btn_req.place(x=935, y=300)
 
         def select_record():
             # clear entry boxes
@@ -562,7 +558,7 @@ class dobavit_delete(Frame):
 
 
         self.select_button = Button(self.master, text="   Выбрать информацию   ", fg='#F7D91E', bg='#000', borderwidth=3,command=select_record)
-        self.select_button.place(x=935, y=400)
+        self.select_button.place(x=935, y=350)
 
         def update_record():
             selected = tree.focus()
@@ -604,7 +600,48 @@ class dobavit_delete(Frame):
 
         self.edit_button = Button(self.master, text="   Изменить   ", fg='#F7D91E', bg='#000', borderwidth=3,
                                   command=update_record)
-        self.edit_button.place(x=935, y=450)
+        self.edit_button.place(x=935, y=400)
+
+
+
+
+
+
+        def search():
+            if self.nomer.get()=='' and  self.cvet.get()=='' and  self.qod.get()=='' and self.model.get()=='' and  self.cena.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.marka.get()
+                print(query)
+            elif self.marka.get()=='' and  self.cvet.get()=='' and  self.qod.get()=='' and self.model.get()=='' and  self.cena.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.nomer.get()
+            elif self.marka.get()=='' and  self.nomer.get()=='' and  self.qod.get()=='' and self.model.get()=='' and  self.cena.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.cvet.get()
+            elif self.marka.get()=='' and  self.nomer.get()=='' and  self.cvet.get()=='' and self.model.get()=='' and  self.cena.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.qod.get()
+            elif self.marka.get()=='' and  self.nomer.get()=='' and  self.cvet.get()=='' and self.qod.get()=='' and  self.cena.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.model.get()
+            elif self.marka.get()=='' and  self.nomer.get()=='' and  self.cvet.get()=='' and self.qod.get()=='' and  self.model.get()=='' and  self.fio.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.cena.get()
+            elif self.marka.get()=='' and  self.nomer.get()=='' and  self.cvet.get()=='' and self.qod.get()=='' and  self.model.get()=='' and  self.cena.get()=='' and self.datav.get()=='' and  self.data.get()=='':
+                query = self.fio.get()
+
+
+
+            selections = []
+            for child in tree.get_children():
+                if query in tree.item(child)['values']:
+                    print(tree.item(child)['values'])
+                    selections.append(child)
+            print('search completed')
+            tree.selection_set(selections)
+
+
+        self.poisk_button = Button(self.master, text="   Поиск   ", fg='#F7D91E', bg='#000', borderwidth=3,command=search)
+        self.poisk_button.place(x=935, y=450)
+
+
+
+
+
 
         def delete_record():
             item = tree.selection()[0]
@@ -642,105 +679,197 @@ class dobavit_delete(Frame):
                                     command=save_record)
         self.save_button.place(x=935, y=600)
 
-        def search():
-            tree.selection()
-            fetchdata =tree.get_children()
-            for f in fetchdata:
-
-            for row_id in tree.get_children(item):
-                text = tree.item(row_id, 'text')
-                if text.startswith(self.marka.get()):
-                    tree.selection_set(row_id)
-                search(None, item=row_id)
-
-
-            # children = tree.get_children(item)
-            # for child in children:
-            #     text = tree.item(child, 'text')
-            #     if text.startswith(entry.get()):
-            #         tree.selection_set(child)
-
-
-        self.poisk_button = Button(self.master, text="   Поиск   ", fg='#F7D91E', bg='#000', borderwidth=3,command=search)
-        self.poisk_button.place(x=800, y=600)
-
-
-class poisk(Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self.master.title('АВТОПРОКАТ')
-        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
-        self.master.config(bg='#000000')
-        self.master.geometry('1150x680+120+10')
-        self.master.resizable(False, False)
-        self.create_widgit()
-
-    def create_widgit(self):
-
-        # определяем столбцы
-        columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
-
-        tree = ttk.Treeview(self.master, columns=columns, show="headings", height=15)
-        tree.place(x=30,y=30)
-
-
-        tree.column("#1",width=120, anchor=CENTER)
-        tree.column("#2",width=120,anchor=CENTER)
-        tree.column("#3",width=120,anchor=CENTER)
-        tree.column("#4",width=80,anchor=CENTER)
-        tree.column("#5",width=80,anchor=CENTER)
-        tree.column("#6",width=130,anchor=CENTER)
-        tree.column("#7", width=120, anchor=CENTER)
-        tree.column("#8", width=120, anchor=CENTER)
-        tree.column("#9", width=120, anchor=CENTER)
-        tree.column("#10", width=85, anchor=CENTER)
-
-
-        # определяем заголовки
-        tree.heading("marka", text="Марка автомобиля")
-        tree.heading("nomer", text="Номер автомобиля")
-        tree.heading("cvet", text="Цвет автомобиля")
-        tree.heading("qod", text="Год выпуска")
-        tree.heading("model", text="Модель")
-        tree.heading("cena", text="Цена проката в сутки")
-        tree.heading("fio", text="ФИО того, кто взял")
-        tree.heading("datav", text="Дата, когда взяли")
-        tree.heading("data", text="Дата, когда вернут")
-        tree.heading("denqi", text="Общая цена")
-
-        # определяем данные для отображения
-        cars = []
-
-        global count
-        count = 0
-        # добавляем данные
-        for car in cars:
-            tree.insert(parent='', index='end', iid=count, text='', values=(car[0], car[1], car[2], car[3], car[4], car[5],car[6],car[7],car[8],car[9]))
-
-            count += 1
 
 
 
 
-        my_file = r"file\my_file.txt"
+# class poisk(Frame):
+#     def __init__(self, master=None):
+#         super().__init__(master)
+#         self.master = master
+#         self.master.title('АВТОПРОКАТ')
+#         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+#         self.master.config(bg='#000000')
+#         self.master.geometry('1150x680+120+10')
+#         self.master.resizable(False, False)
+#         self.create_widgit()
+#
+#     def create_widgit(self):
+#
+#         # определяем столбцы
+#         columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
+#
+#         tree = ttk.Treeview(self.master, columns=columns, show="headings", height=15)
+#         tree.place(x=30,y=70)
+#
+#
+#         tree.column("#1",width=120, anchor=CENTER)
+#         tree.column("#2",width=120,anchor=CENTER)
+#         tree.column("#3",width=120,anchor=CENTER)
+#         tree.column("#4",width=80,anchor=CENTER)
+#         tree.column("#5",width=80,anchor=CENTER)
+#         tree.column("#6",width=130,anchor=CENTER)
+#         tree.column("#7", width=120, anchor=CENTER)
+#         tree.column("#8", width=120, anchor=CENTER)
+#         tree.column("#9", width=120, anchor=CENTER)
+#         tree.column("#10", width=85, anchor=CENTER)
+#
+#
+#         # определяем заголовки
+#         tree.heading("marka", text="Марка автомобиля")
+#         tree.heading("nomer", text="Номер автомобиля")
+#         tree.heading("cvet", text="Цвет автомобиля")
+#         tree.heading("qod", text="Год выпуска")
+#         tree.heading("model", text="Модель")
+#         tree.heading("cena", text="Цена проката в сутки")
+#         tree.heading("fio", text="ФИО того, кто взял")
+#         tree.heading("datav", text="Дата, когда взяли")
+#         tree.heading("data", text="Дата, когда вернут")
+#         tree.heading("denqi", text="Общая цена")
+#
+#         # определяем данные для отображения
+#         cars = []
+#
+#         global count
+#         count = 0
+#         # добавляем данные
+#         for car in cars:
+#             tree.insert(parent='', index='end', iid=count, text='', values=(car[0], car[1], car[2], car[3], car[4], car[5],car[6],car[7],car[8],car[9]))
+#
+#             count += 1
+#
+#
+#
+#
+#         my_file = r"file\my_file.txt"
+#
+#         with open(my_file) as file:
+#             csvread = csv.reader(file, delimiter=',')
+#
+#             for row in csvread:
+#                 print('load row:', row)
+#                 tree.insert("", 'end', values=row)
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#         # def selected(event):
+#         #     # получаем выделенный элемент
+#         #     selection = combobox.get()
+#         #     if selection == "по марке":
+#         #         self.marka = ttk.Entry(self.master, width=30)
+#         #         self.marka.place(x=250, y=35)
+#         #         query = self.marka.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#         #
+#         #     elif selection == "по цвету":
+#         #         self.cvet = ttk.Entry(self.master, width=30)
+#         #         self.cvet.place(x=250, y=35)
+#         #         query = self.cvet.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#         #
+#         #     elif selection == "по номеру":
+#         #         self.nomer = ttk.Entry(self.master, width=30)
+#         #         self.nomer.place(x=250, y=35)
+#         #         query = self.nomer.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#         #
+#         #     elif selection == "по году выпуска":
+#         #         self.qod = ttk.Entry(self.master, width=30)
+#         #         self.qod.place(x=250, y=35)
+#         #         query = self.qod.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#         #
+#         #     elif selection == "по тому, кто взял":
+#         #         self.fio = ttk.Entry(self.master, width=30)
+#         #         self.fio.place(x=250, y=35)
+#         #         query = self.fio.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#         #
+#         #     elif selection == "по диапазону цен":
+#         #         self.cena = ttk.Entry(self.master, width=30)
+#         #         self.cena.place(x=250, y=35)
+#         #         query = self.cena.get()
+#         #         selections = []
+#         #         for child in tree.get_children():
+#         #             if query in tree.item(child)['values']:
+#         #                 print(tree.item(child)['values'])
+#         #                 selections.append(child)
+#         #         print('search completed')
+#         #         tree.selection_set(selections)
+#
+#
+#
+#
+#
+#
+#
+#         # languages = ["по марке", "по цвету",
+#         #              "по номеру","по году выпуска","по тому, кто взял", "по диапазону цен"]
+#         #
+#         # combobox = ttk.Combobox(values=languages, state="readonly")
+#         # combobox.place(x=100, y=35, width=130)
+#         # combobox.bind("<<ComboboxSelected>>", selected)
+#
+#         cena = ttk.Entry( self.master,width=30)
+#         cena.place(x=250, y=35)
+#         query = cena.get()
+#         print(query)
+#         print('hiii')
+#         def search():
+#             selections = []
+#             for child in tree.get_children():
+#                 print(tree.item(child)['values'])
+#                 print('ssssdfg')
+#                 if query in tree.item(child)['values']:
+#                     print(tree.item(child)['values'])
+#                     selections.append(child)
+#
+#             print('search completed')
+#             tree.selection_set(selections)
+#
+#         self.select = Button(self.master, text='   Поиск   ', fg='#F7D91E', bg='#000', borderwidth=3, command =search)
+#         self.select.place(x=30, y=30)
 
-        with open(my_file) as file:
-            csvread = csv.reader(file, delimiter=',')
 
-            for row in csvread:
-                print('load row:', row)
-                tree.insert("", 'end', values=row)
-
-        marka = Label(self.master, text='Марка автомобиля')
-        marka.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
-        marka.place(x=40, y=400)
-        self.marka = ttk.Entry(self.master, width=30)
-        self.marka.place(x=140, y=400)
-
-
-        self.select = Button(self.master, text='   Поиск   ', fg='#F7D91E', bg='#000', borderwidth=3)
-        self.select.place(x=30, y=500)
 
 class pokaz(Frame):
     def __init__(self, master=None):
@@ -814,8 +943,9 @@ class pokaz(Frame):
 
 
 
+
 if __name__ == '__main__':
     root =Tk()
-    app = dobavit_delete(root)
+    app = Avtorizaciya(root)
     app.mainloop()
 
