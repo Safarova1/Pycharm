@@ -270,7 +270,7 @@ class Avtorizaciya(Frame):
         if a == 0 and c == 0:
             self.btn_req.config(fg='black', bg='#F7D91E')
 
-            count = 0
+            self.count = 0
 
             req_l = r"file\login.txt"
             req_p = r"file\password.txt"
@@ -278,16 +278,13 @@ class Avtorizaciya(Frame):
                 login = self.imya.get()+'\n'
                 password = self.parol.get()+'\n'
                 for i in Filel:
-                    count += 1
+                    self.count += 1
                     if i==login:
                         with open(req_p, "r") as Filep:
-                            for i in range(0,count):
+                            for i in range(0,self.count):
                                 a=Filep.readline()
                             if a==password:
-                                print('hello')
-                                self.master.withdraw()
-                                self.new_InfoWindow = Toplevel(self.master)
-                                self.info_window = Admin(self.new_InfoWindow)
+                                self.admin()
                                 self.imya.delete(0, END)
                                 self.parol.delete(0, END)
                             else:
@@ -295,12 +292,13 @@ class Avtorizaciya(Frame):
                                 showinfo(title='Неверные данные', message='Неправильный пароль')
 
                     else:
-
                         showinfo(title='Неверные данные', message='Неправильное имя пользователя или пароль')
-
                         self.imya.delete(0, END)
                         self.parol.delete(0, END)
-
+    def admin(self):
+        self.master.withdraw()
+        self.new_InfoWindow = Toplevel(self.master)
+        self.info_window = Admin(self.new_InfoWindow)
 
     def str1(self):
 
