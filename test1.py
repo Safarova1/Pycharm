@@ -642,6 +642,29 @@ class dobavit_delete(Frame):
                                     command=save_record)
         self.save_button.place(x=935, y=600)
 
+        def search():
+            tree.selection()
+            fetchdata =tree.get_children()
+            for f in fetchdata:
+
+            for row_id in tree.get_children(item):
+                text = tree.item(row_id, 'text')
+                if text.startswith(self.marka.get()):
+                    tree.selection_set(row_id)
+                search(None, item=row_id)
+
+
+            # children = tree.get_children(item)
+            # for child in children:
+            #     text = tree.item(child, 'text')
+            #     if text.startswith(entry.get()):
+            #         tree.selection_set(child)
+
+
+        self.poisk_button = Button(self.master, text="   Поиск   ", fg='#F7D91E', bg='#000', borderwidth=3,command=search)
+        self.poisk_button.place(x=800, y=600)
+
+
 class poisk(Frame):
     def __init__(self, master=None):
         super().__init__(master)
