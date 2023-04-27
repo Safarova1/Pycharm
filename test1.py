@@ -709,11 +709,15 @@ class poisk(Frame):
                 print('load row:', row)
                 tree.insert("", 'end', values=row)
 
+        marka = Label(self.master, text='Марка автомобиля')
+        marka.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
+        marka.place(x=40, y=400)
+        self.marka = ttk.Entry(self.master, width=30)
+        self.marka.place(x=140, y=400)
 
 
-
-        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3, command=self.create_widgit)
-        self.select.place(x=30, y=30)
+        self.select = Button(self.master, text='   Поиск   ', fg='#F7D91E', bg='#000', borderwidth=3)
+        self.select.place(x=30, y=500)
 
 class pokaz(Frame):
     def __init__(self, master=None):
@@ -789,6 +793,6 @@ class pokaz(Frame):
 
 if __name__ == '__main__':
     root =Tk()
-    app = Admin(root)
+    app = dobavit_delete(root)
     app.mainloop()
 
