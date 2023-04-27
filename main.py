@@ -329,17 +329,40 @@ class InfoWindow(Frame):
 
 
     def create_widgit(self):
-        lbl_req = Label(self.master, text='hello')
-        lbl_req.config(fg='#fff', bg='#000', font=('Montserrat,sans-serif;', 35))
-        lbl_req.place(x=380, y=100)
+
+        columns = ( "nomer","marka")
+
+        tree = ttk.Treeview(self.master, columns=columns, show="headings")
+        tree.place(x=30, y=30)
+
+        tree.column("#1", width=30, anchor=CENTER)
+        tree.column("#2", width=300, anchor=CENTER)
+
+
+        # определяем заголовки
+        tree.heading("nomer", text="№")
+        tree.heading("marka", text="Выбирайте:")
+
+
+        # определяем данные для отображения
+        vibor = [('1','Редактирование информации'),('2','Показ всех записей на экран')]
+
+
+        # добавляем данные
+        for i in vibor:
+            tree.insert("", END, values=i)
+
+
+
+
         def str1():
             self.master.withdraw()
             self.new_InfoWindow = Toplevel(self.master)
             self.info_window = dobavit_delete(self.new_InfoWindow)
 
-        self.btn_req = Button(self.master, text='   dobavit_delete   ', fg='#F7D91E', bg='#000', borderwidth=10,
+        self.btn_req = Button(self.master, text='✓', fg='#F7D91E', bg='#000',
                               command=str1)
-        self.btn_req.place(x=560, y=500)
+        self.btn_req.place(x=362, y=50)
 
 
         def str2():
@@ -347,9 +370,21 @@ class InfoWindow(Frame):
             self.new_InfoWindow = Toplevel(self.master)
             self.info_window = pokaz(self.new_InfoWindow)
 
-        self.btn_req = Button(self.master, text='   pokaz   ', fg='#F7D91E', bg='#000', borderwidth=10,
+        self.btn_req = Button(self.master, text='✓', fg='#F7D91E', bg='#000',
                               command=str2)
-        self.btn_req.place(x=399, y=500)
+        self.btn_req.place(x=362, y=75)
+
+
+        def vixod():
+            self.master.withdraw()
+            self.new_InfoWindow = Toplevel(self.master)
+            self.info_window = Avtorizaciya(self.new_InfoWindow)
+
+        self.btn_req = Button(self.master, text='Выход', fg='#F7D91E', bg='#000',
+                              command=vixod)
+        self.btn_req.place(x=0, y=0)
+
+
 
 
 class dobavit_delete(Frame):
@@ -666,7 +701,14 @@ class dobavit_delete(Frame):
                                     command=save_record)
         self.save_button.place(x=935, y=600)
 
+        def str2():
+            self.master.withdraw()
+            self.new_InfoWindow = Toplevel(self.master)
+            self.info_window = InfoWindow(self.new_InfoWindow)
 
+        self.btn_req = Button(self.master, text='<-', fg='#F7D91E', bg='#000',
+                              command=str2)
+        self.btn_req.place(x=0, y=0)
 class pokaz(Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -733,6 +775,22 @@ class pokaz(Frame):
             for row in csvread:
                 print('load row:', row)
                 tree.insert("", 'end', values=row)
+
+
+        def str2():
+            self.master.withdraw()
+            self.new_InfoWindow = Toplevel(self.master)
+            self.info_window = InfoWindow(self.new_InfoWindow)
+
+        self.btn_req = Button(self.master, text='<-', fg='#F7D91E', bg='#000',
+                              command=str2)
+        self.btn_req.place(x=0, y=0)
+
+
+
+
+
+
 
 
 
