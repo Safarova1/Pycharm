@@ -9,7 +9,7 @@ import csv
 class LoginWindow(Frame):
     def __init__(self,master = None):
         super().__init__(master)
-        self.master1 = master
+        self.master = master
         self.master.title('АВТОПРОКАТ')
         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
         self.master.config(bg = '#000000')
@@ -194,17 +194,18 @@ class LoginWindow(Frame):
 class Avtorizaciya(Frame):
     def __init__(self, master=None):
         super().__init__(master)
-        self.master2 = master
+        self.master = master
         self.master.title('АВТОПРОКАТ')
         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
         self.master.config(bg='#000000')
         self.master.geometry('1150x680+120+10')
         self.master.resizable(False, False)
-        self.create_widgit()
+        self.create_widgets()
 
 
 
-    def create_widgit(self):
+    def create_widgets(self):
+
         lbl_req = Label(self.master, text='АВТОРИЗАЦИЯ')
         lbl_req.config(fg='#fff', bg='#000', font=('Montserrat,sans-serif;', 35))
         lbl_req.place(x=380, y=100)
@@ -301,7 +302,6 @@ class Avtorizaciya(Frame):
         self.info_window = Admin(self.new_InfoWindow)
 
     def str1(self):
-
         self.master.withdraw()
         self.new_InfoWindow = Toplevel(self.master)
         self.info_window = LoginWindow(self.new_InfoWindow)
@@ -310,7 +310,7 @@ class Avtorizaciya(Frame):
 class Admin(Frame):
     def __init__(self, master=None):
         super().__init__(master)
-        self.master3 = master
+        self.master = master
         self.master.title('АВТОПРОКАТ')
         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
         self.master.config(bg='#000000')
