@@ -155,8 +155,8 @@ class LoginWindow(Frame):
             c=0
 
         if a==0 and b==0 and c==0:
-            req_login = r"C:\Users\safarova_s\PycharmProjects\PROJECT\login.txt"
-            req_password = r"C:\Users\safarova_s\PycharmProjects\PROJECT\password.txt"
+            req_login = r"file\login.txt"
+            req_password = r"file\password.txt"
             with open(req_login, "a") as File:
                 File.write(self.imya.get())
                 File.write('\n')
@@ -171,7 +171,7 @@ class LoginWindow(Frame):
             self.btn_req.config(fg='#F7D91E', bg='#000')
             z = 'имя- ' + self.imya.get()+','+'фамилия- '+ self.fam.get()+ ','+'телефон- '+self.tel.get()+','+'почта- '+self.email.get()+','+ 'пароль- '+self.parol.get()+"\n"
 
-            my_file_path = r"C:\Users\safarova_s\PycharmProjects\PROJECT\avtoprokat.txt"
+            my_file_path = r"file\avtoprokat.txt"
 
 
             with open(my_file_path, "a") as File:
@@ -238,7 +238,7 @@ class Avtorizaciya(Frame):
         self.check = Checkbutton(self.master1, text='показать пароль', variable=var, command=click_checkbutton)
         self.check.place(x=610, y=330)
 
-        self.btn_req = Button(self.master1,text='           ВХОД         ' , bg='#F7D91E', fg='black', borderwidth=10,command=self.vxod)
+        self.btn_req = Button(self.master1,text='        ВХОД       ' , bg='#F7D91E', fg='black', borderwidth=10,command=self.vxod)
         self.btn_req.place(x=380, y=500)
 
         self.btn_req = Button(self.master1, text='   ЗАРЕГИСТРИРОВАТЬСЯ   ',fg='#F7D91E', bg='#000', borderwidth=10,command=self.str1)
@@ -275,8 +275,8 @@ class Avtorizaciya(Frame):
 
             count = 0
 
-            req_l = r"C:\Users\safarova_s\PycharmProjects\PROJECT\login.txt"
-            req_p = r"C:\Users\safarova_s\PycharmProjects\PROJECT\password.txt"
+            req_l = r"file\login.txt"
+            req_p = r"file\password.txt"
             with open(req_l, "r") as Filel:
                 login = self.imya.get()+'\n'
                 password = self.parol.get()+'\n'
@@ -593,7 +593,7 @@ class Admin(Frame):
 
         self.delete_button = Button(self.master2, text="   Удалить   ", fg='#F7D91E', bg='#000', borderwidth=3, command=delete_record)
         self.delete_button.place(x=935, y=500)
-        my_file = r"my_file.txt"
+        my_file = r"file\my_file.txt"
 
         def load_record():
             with open(my_file) as file:
