@@ -316,37 +316,46 @@ class Admin(Frame):
         self.master.config(bg='#000000')
         self.master.geometry('1150x680+120+10')
         self.master.resizable(False, False)
-        self.create_widgit()
+        self.create_widgets()
 
 
 
-    def create_widgit(self):
-        image = Image.open(r"icon_and_image\a.jpg")
-        resize_image = image.resize((1160, 690))
-        img = ImageTk.PhotoImage(resize_image)
+    def create_widgets(self):
+        # image = Image.open(r"icon_and_image\a.jpg")
+        # resize_image = image.resize((1160, 690))
+        # img = ImageTk.PhotoImage(resize_image)
+        #
+        # label1 = Label(image=img)
+        # label1.image = img
+        # label1.pack()
 
-        label1 = Label(image=img)
-        label1.image = img
-        label1.pack()
+
 
         def selected(event):
             # получаем выделенный элемент
             selection = combobox.get()
             if selection=="Добавление информации или же удаление информации":
-                self.dobavit_delete()
-                print(selection)
                 label["text"] = f"Выбрал : {selection}"
+                def click():
+                    self.master.withdraw()
+                    self.new_InfoWindow = Toplevel(self.master)
+                    self.info_window = dobavit_delete(self.new_InfoWindow)
 
             elif selection=="Организация поиска информации":
-                self.poisk()
-                print(selection)
                 label["text"] = f"Выбрал : {selection}"
+                def click():
+                    self.master.withdraw()
+                    self.new_InfoWindow = Toplevel(self.master)
+                    self.info_window = poisk(self.new_InfoWindow)
 
             elif selection=="Показ всех записей на экран":
-                self.pokaz()
-                print(selection)
                 label["text"] = f"Выбрал : {selection}"
-
+                def click():
+                    self.master.withdraw()
+                    self.new_InfoWindow = Toplevel(self.master)
+                    self.info_window = pokaz(self.new_InfoWindow)
+            button = Button(text="Открыть", fg='#000', bg='#F7D91E', borderwidth=3,command=click)
+            button.place(x=600, y=50)
 
         languages = ["Добавление информации или же удаление информации", "Организация поиска информации", "Показ всех записей на экран"]
         label = ttk.Label(text='Выбирай : ',background='black', foreground='#F7D91E')
@@ -356,43 +365,24 @@ class Admin(Frame):
         combobox.place(x=50, y=50,width=400)
         combobox.bind("<<ComboboxSelected>>", selected)
 
-    def poisk(self):
-        image = Image.open(r"icon_and_image\a.jpg")
-        resize_image = image.resize((1160, 690))
-        img = ImageTk.PhotoImage(resize_image)
-
-        label1 = Label(image=img)
-        label1.image = img
-        label1.pack()
 
 
 
-        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3, command=self.create_widgit)
-        self.select.place(x=30, y=30)
 
-    def pokaz(self):
-        image = Image.open(r"icon_and_image\a.jpg")
-        resize_image = image.resize((1160, 690))
-        img = ImageTk.PhotoImage(resize_image)
-
-        label1 = Label(image=img)
-        label1.image = img
-        label1.pack()
-
-        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3)
-        self.select.place(x=30, y=30)
+class dobavit_delete(Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.master.title('АВТОПРОКАТ')
+        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+        self.master.config(bg='#000000')
+        self.master.geometry('1150x680+120+10')
+        self.master.resizable(False, False)
+        self.create_widgit()
 
 
-    def dobavit_delete(self):
 
-        image = Image.open(r"icon_and_image\a.jpg")
-        resize_image = image.resize((1160, 690))
-        img = ImageTk.PhotoImage(resize_image)
-
-        label1 = Label(image=img)
-        label1.image = img
-        label1.pack()
-
+    def create_widgit(self):
 
 
 
@@ -408,7 +398,7 @@ class Admin(Frame):
         columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
 
         tree = ttk.Treeview(self.master, columns=columns, show="headings")
-        tree.place(x=30,y=100)
+        tree.place(x=30,y=30)
 
 
         tree.column("#1",width=120, anchor=CENTER)
@@ -505,16 +495,25 @@ class Admin(Frame):
 
 
         def input_record():
-            global count
-            a = self.cena.get()
-            b = self.data.get()
-            c = self.datav.get()
-            d=int(a)*(int(b)-int(c))
-            print(d)
 
-            tree.insert(parent='', index='end', iid=count, text='',
-                       values=(self.marka.get(), self.nomer.get(), self.cvet.get(),self.qod.get(),self.model.get(),self.cena.get(),self.fio.get(),self.datav.get(),self.data.get(),d))
-            count += 1
+            if self.data.get()=='':
+                tree.insert(parent='', index='end', text='',
+                            values=(
+                            self.marka.get(), self.nomer.get(), self.cvet.get(), self.qod.get(), self.model.get(),
+                            self.cena.get()))
+
+            else:
+                global count
+                count = 0
+                a = self.cena.get()
+                b = self.data.get()
+                c = self.datav.get()
+                d=int(a)*(int(b)-int(c))
+                print(d)
+
+                tree.insert(parent='', index='end', iid=count, text='',
+                               values=(self.marka.get(), self.nomer.get(), self.cvet.get(),self.qod.get(),self.model.get(),self.cena.get(),self.fio.get(),self.datav.get(),self.data.get(),d))
+                count += 1
 
             self.marka.delete(0, END)
             self.nomer.delete(0, END)
@@ -561,13 +560,35 @@ class Admin(Frame):
             self.data.insert(0, values[8])
 
 
+
         self.select_button = Button(self.master, text="   Выбрать информацию   ", fg='#F7D91E', bg='#000', borderwidth=3,command=select_record)
         self.select_button.place(x=935, y=400)
 
         def update_record():
             selected = tree.focus()
+            if self.data.get()=='':
+                tree.item(selected, text="", values=(
+                self.marka.get(), self.nomer.get(), self.cvet.get(), self.qod.get(), self.model.get(), self.cena.get()))
+
+
+            else:
+                global count
+                count = 0
+                a = self.cena.get()
+                b = self.data.get()
+                c = self.datav.get()
+                d=int(a)*(int(b)-int(c))
+                print(d)
+
+                tree.item(selected, text="", values=(
+                self.marka.get(), self.nomer.get(), self.cvet.get(), self.qod.get(), self.model.get(), self.cena.get(),
+                self.fio.get(), self.datav.get(), self.data.get(),d))
+                count += 1
+
+
+
+
             # save new data
-            tree.item(selected, text="",values=(self.marka.get(), self.nomer.get(), self.cvet.get(),self.qod.get(),self.model.get(),self.cena.get(),self.fio.get(),self.datav.get(),self.data.get(),self.denqi.get()))
 
             # clear entry boxes
             self.marka.delete(0, END)
@@ -578,7 +599,7 @@ class Admin(Frame):
             self.cena.delete(0, END)
             self.fio.delete(0, END)
             self.datav.delete(0, END)
-            self.data.insert(0, END)
+            self.data.delete(0, END)
 
 
         self.edit_button = Button(self.master, text="   Изменить   ", fg='#F7D91E', bg='#000', borderwidth=3,
@@ -621,10 +642,153 @@ class Admin(Frame):
                                     command=save_record)
         self.save_button.place(x=935, y=600)
 
+class poisk(Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.master.title('АВТОПРОКАТ')
+        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+        self.master.config(bg='#000000')
+        self.master.geometry('1150x680+120+10')
+        self.master.resizable(False, False)
+        self.create_widgit()
+
+    def create_widgit(self):
+
+        # определяем столбцы
+        columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
+
+        tree = ttk.Treeview(self.master, columns=columns, show="headings", height=15)
+        tree.place(x=30,y=30)
+
+
+        tree.column("#1",width=120, anchor=CENTER)
+        tree.column("#2",width=120,anchor=CENTER)
+        tree.column("#3",width=120,anchor=CENTER)
+        tree.column("#4",width=80,anchor=CENTER)
+        tree.column("#5",width=80,anchor=CENTER)
+        tree.column("#6",width=130,anchor=CENTER)
+        tree.column("#7", width=120, anchor=CENTER)
+        tree.column("#8", width=120, anchor=CENTER)
+        tree.column("#9", width=120, anchor=CENTER)
+        tree.column("#10", width=85, anchor=CENTER)
+
+
+        # определяем заголовки
+        tree.heading("marka", text="Марка автомобиля")
+        tree.heading("nomer", text="Номер автомобиля")
+        tree.heading("cvet", text="Цвет автомобиля")
+        tree.heading("qod", text="Год выпуска")
+        tree.heading("model", text="Модель")
+        tree.heading("cena", text="Цена проката в сутки")
+        tree.heading("fio", text="ФИО того, кто взял")
+        tree.heading("datav", text="Дата, когда взяли")
+        tree.heading("data", text="Дата, когда вернут")
+        tree.heading("denqi", text="Общая цена")
+
+        # определяем данные для отображения
+        cars = []
+
+        global count
+        count = 0
+        # добавляем данные
+        for car in cars:
+            tree.insert(parent='', index='end', iid=count, text='', values=(car[0], car[1], car[2], car[3], car[4], car[5],car[6],car[7],car[8],car[9]))
+
+            count += 1
+
+
+
+
+        my_file = r"file\my_file.txt"
+
+        with open(my_file) as file:
+            csvread = csv.reader(file, delimiter=',')
+
+            for row in csvread:
+                print('load row:', row)
+                tree.insert("", 'end', values=row)
+
+
+
+
+        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3, command=self.create_widgit)
+        self.select.place(x=30, y=30)
+
+class pokaz(Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.master.title('АВТОПРОКАТ')
+        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+        self.master.config(bg='#000000')
+        self.master.geometry('1150x680+120+10')
+        self.master.resizable(False, False)
+        self.create_widgit()
+
+    def create_widgit(self):
+
+        # определяем столбцы
+        columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
+
+        tree = ttk.Treeview(self.master, columns=columns, show="headings", height=29)
+        tree.place(x=30,y=30)
+
+
+        tree.column("#1",width=120, anchor=CENTER)
+        tree.column("#2",width=120,anchor=CENTER)
+        tree.column("#3",width=120,anchor=CENTER)
+        tree.column("#4",width=80,anchor=CENTER)
+        tree.column("#5",width=80,anchor=CENTER)
+        tree.column("#6",width=130,anchor=CENTER)
+        tree.column("#7", width=120, anchor=CENTER)
+        tree.column("#8", width=120, anchor=CENTER)
+        tree.column("#9", width=120, anchor=CENTER)
+        tree.column("#10", width=85, anchor=CENTER)
+
+
+        # определяем заголовки
+        tree.heading("marka", text="Марка автомобиля")
+        tree.heading("nomer", text="Номер автомобиля")
+        tree.heading("cvet", text="Цвет автомобиля")
+        tree.heading("qod", text="Год выпуска")
+        tree.heading("model", text="Модель")
+        tree.heading("cena", text="Цена проката в сутки")
+        tree.heading("fio", text="ФИО того, кто взял")
+        tree.heading("datav", text="Дата, когда взяли")
+        tree.heading("data", text="Дата, когда вернут")
+        tree.heading("denqi", text="Общая цена")
+
+        # определяем данные для отображения
+        cars = []
+
+        global count
+        count = 0
+        # добавляем данные
+        for car in cars:
+            tree.insert(parent='', index='end', iid=count, text='', values=(car[0], car[1], car[2], car[3], car[4], car[5],car[6],car[7],car[8],car[9]))
+
+            count += 1
+
+
+
+
+        my_file = r"file\my_file.txt"
+
+        with open(my_file) as file:
+            csvread = csv.reader(file, delimiter=',')
+
+            for row in csvread:
+                print('load row:', row)
+                tree.insert("", 'end', values=row)
+
+
+
+
 
 
 if __name__ == '__main__':
     root =Tk()
-    app = LoginWindow(root)
+    app = Admin(root)
     app.mainloop()
 
