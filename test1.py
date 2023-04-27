@@ -9,7 +9,7 @@ import csv
 class LoginWindow(Frame):
     def __init__(self,master = None):
         super().__init__(master)
-        self.master= master
+        self.master1 = master
         self.master.title('АВТОПРОКАТ')
         self.master.iconbitmap(default=r'icon_and_image\racing.ico')
         self.master.config(bg = '#000000')
@@ -191,38 +191,35 @@ class LoginWindow(Frame):
 
 
 
-
-
-
 class Avtorizaciya(Frame):
-    def __init__(self, master1=None):
-        super().__init__(master1)
-        self.master1 = master1
-        self.master1.title('АВТОПРОКАТ')
-        self.master1.iconbitmap(default=r'icon_and_image\racing.ico')
-        self.master1.config(bg='#000000')
-        self.master1.geometry('1150x680+120+10')
-        self.master1.resizable(False, False)
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master2 = master
+        self.master.title('АВТОПРОКАТ')
+        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+        self.master.config(bg='#000000')
+        self.master.geometry('1150x680+120+10')
+        self.master.resizable(False, False)
         self.create_widgit()
 
 
 
     def create_widgit(self):
-        lbl_req = Label(self.master1, text='АВТОРИЗАЦИЯ')
+        lbl_req = Label(self.master, text='АВТОРИЗАЦИЯ')
         lbl_req.config(fg='#fff', bg='#000', font=('Montserrat,sans-serif;', 35))
         lbl_req.place(x=380, y=100)
 
 
-        lbl_imya = Label(self.master1, text='Имя * ')
+        lbl_imya = Label(self.master, text='Имя * ')
         lbl_imya.config(fg='#fff', bg='#000', font=('Bahnschrift Light',10))
         lbl_imya.place(x=380, y=200)
-        self.imya = ttk.Entry(self.master1,width=58)
+        self.imya = ttk.Entry(self.master,width=58)
         self.imya.place(x=380, y=230)
 
-        lbl_parol = Label(self.master1, text='Пароль * ')
+        lbl_parol = Label(self.master, text='Пароль * ')
         lbl_parol.config(fg='#fff', bg='#000', font=('Bahnschrift Light', 10))
         lbl_parol.place(x=380, y=300)
-        self.parol = ttk.Entry(self.master1, show='*')
+        self.parol = ttk.Entry(self.master, show='*')
         self.parol.place(x=380, y=330)
 
         var = IntVar()
@@ -235,21 +232,21 @@ class Avtorizaciya(Frame):
                 self.parol['show'] = '*'
                 self.check.config(fg='black', bg='#fff')
 
-        self.check = Checkbutton(self.master1, text='показать пароль', variable=var, command=click_checkbutton)
+        self.check = Checkbutton(self.master, text='показать пароль', variable=var, command=click_checkbutton)
         self.check.place(x=610, y=330)
 
-        self.btn_req = Button(self.master1,text='        ВХОД       ' , bg='#F7D91E', fg='black', borderwidth=10,command=self.vxod)
+        self.btn_req = Button(self.master,text='        ВХОД       ' , bg='#F7D91E', fg='black', borderwidth=10,command=self.vxod)
         self.btn_req.place(x=380, y=500)
 
-        self.btn_req = Button(self.master1, text='   ЗАРЕГИСТРИРОВАТЬСЯ   ',fg='#F7D91E', bg='#000', borderwidth=10,command=self.str1)
+        self.btn_req = Button(self.master, text='   ЗАРЕГИСТРИРОВАТЬСЯ   ',fg='#F7D91E', bg='#000', borderwidth=10,command=self.str1)
         self.btn_req.place(x=560, y=500)
 
 
 
-        self.error_imya = Label(self.master1, text='', foreground="yellow", background='#000', wraplength=600)
+        self.error_imya = Label(self.master, text='', foreground="yellow", background='#000', wraplength=600)
         self.error_imya.place(x=380, y=260)
 
-        self.error_parol = Label(self.master1, text='', foreground="yellow", background='#000', wraplength=600)
+        self.error_parol = Label(self.master, text='', foreground="yellow", background='#000', wraplength=600)
         self.error_parol.place(x=380, y=360)
 
     def vxod(self):
@@ -287,35 +284,40 @@ class Avtorizaciya(Frame):
                             for i in range(0,count):
                                 a=Filep.readline()
                             if a==password:
-                                self.master1.withdraw()
-                                self.new_InfoWindow = Toplevel(self.master1)
+                                print('hello')
+                                self.master.withdraw()
+                                self.new_InfoWindow = Toplevel(self.master)
                                 self.info_window = Admin(self.new_InfoWindow)
+                                self.imya.delete(0, END)
+                                self.parol.delete(0, END)
                             else:
-                                showinfo(title='Wrong Data', message='Wrong password or login')
 
-                            self.imya.delete(0, END)
-                            self.parol.delete(0, END)
+                                showinfo(title='Неверные данные', message='Неправильный пароль')
 
+                    else:
 
+                        showinfo(title='Неверные данные', message='Неправильное имя пользователя или пароль')
 
-
+                        self.imya.delete(0, END)
+                        self.parol.delete(0, END)
 
 
     def str1(self):
-        self.master1.withdraw()
-        self.new_InfoWindow = Toplevel(self.master1)
+
+        self.master.withdraw()
+        self.new_InfoWindow = Toplevel(self.master)
         self.info_window = LoginWindow(self.new_InfoWindow)
 
 
 class Admin(Frame):
-    def __init__(self, master2=None):
-        super().__init__(master2)
-        self.master2 = master2
-        self.master2.title('АВТОПРОКАТ')
-        self.master2.iconbitmap(default=r'icon_and_image\racing.ico')
-        self.master2.config(bg='#000000')
-        self.master2.geometry('1150x680+120+10')
-        self.master2.resizable(False, False)
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master3 = master
+        self.master.title('АВТОПРОКАТ')
+        self.master.iconbitmap(default=r'icon_and_image\racing.ico')
+        self.master.config(bg='#000000')
+        self.master.geometry('1150x680+120+10')
+        self.master.resizable(False, False)
         self.create_widgit()
 
 
@@ -367,7 +369,7 @@ class Admin(Frame):
 
 
 
-        self.select = Button(self.master2, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3, command=self.create_widgit)
+        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3, command=self.create_widgit)
         self.select.place(x=30, y=30)
 
     def pokaz(self):
@@ -379,7 +381,7 @@ class Admin(Frame):
         label1.image = img
         label1.pack()
 
-        self.select = Button(self.master2, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3)
+        self.select = Button(self.master, text='   Назад   ', fg='#F7D91E', bg='#000', borderwidth=3)
         self.select.place(x=30, y=30)
 
 
@@ -407,7 +409,7 @@ class Admin(Frame):
         # определяем столбцы
         columns = ("marka", "nomer", "cvet",'qod','model','cena', 'fio','datav','data','denqi')
 
-        tree = ttk.Treeview(self.master2, columns=columns, show="headings")
+        tree = ttk.Treeview(self.master, columns=columns, show="headings")
         tree.place(x=30,y=100)
 
 
@@ -447,59 +449,59 @@ class Admin(Frame):
             count += 1
 
 
-        marka = Label(self.master2, text='Марка автомобиля')
+        marka = Label(self.master, text='Марка автомобиля')
         marka.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         marka.place(x=40, y=400)
-        self.marka = ttk.Entry(self.master2, width=22)
+        self.marka = ttk.Entry(self.master, width=22)
         self.marka.place(x=30, y=430)
 
-        nomer = Label(self.master2, text='Номер автомобиля')
+        nomer = Label(self.master, text='Номер автомобиля')
         nomer.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         nomer.place(x=182, y=400)
-        self.nomer = ttk.Entry(self.master2, width=25)
+        self.nomer = ttk.Entry(self.master, width=25)
         self.nomer.place(x=162, y=430)
 
-        cvet = Label(self.master2, text='Цвет автомобиля')
+        cvet = Label(self.master, text='Цвет автомобиля')
         cvet.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         cvet.place(x=335, y=400)
-        self.cvet = ttk.Entry(self.master2, width=25)
+        self.cvet = ttk.Entry(self.master, width=25)
         self.cvet.place(x=315, y=430)
 
-        qod = Label(self.master2, text='Год выпуска')
+        qod = Label(self.master, text='Год выпуска')
         qod.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         qod.place(x=500, y=400)
-        self.qod = ttk.Entry(self.master2, width=22)
+        self.qod = ttk.Entry(self.master, width=22)
         self.qod.place(x=470, y=430)
 
-        model = Label(self.master2, text='Модель')
+        model = Label(self.master, text='Модель')
         model.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         model.place(x=628, y=400)
-        self.model = ttk.Entry(self.master2, width=23)
+        self.model = ttk.Entry(self.master, width=23)
         self.model.place(x=600, y=430)
 
 
-        cena = Label(self.master2, text='Цена проката в сутки')
+        cena = Label(self.master, text='Цена проката в сутки')
         cena.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         cena.place(x=730, y=400)
-        self.cena = ttk.Entry(self.master2, width=25)
+        self.cena = ttk.Entry(self.master, width=25)
         self.cena.place(x=720, y=430)
 
-        fio = Label(self.master2, text='ФИО того, кто взял')
+        fio = Label(self.master, text='ФИО того, кто взял')
         fio.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         fio.place(x=40, y=500)
-        self.fio = ttk.Entry(self.master2, width=22)
+        self.fio = ttk.Entry(self.master, width=22)
         self.fio.place(x=30, y=530)
 
-        datav = Label(self.master2, text='Дата, когда взяли')
+        datav = Label(self.master, text='Дата, когда взяли')
         datav.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         datav.place(x=182, y=500)
-        self.datav = ttk.Entry(self.master2, width=25)
+        self.datav = ttk.Entry(self.master, width=25)
         self.datav.place(x=162, y=530)
 
-        data = Label(self.master2, text='Дата, когда вернут')
+        data = Label(self.master, text='Дата, когда вернут')
         data.config(fg='#F7D91E', bg='#000', font=('Montserrat,sans-serif;', 10))
         data.place(x=335, y=500)
-        self.data = ttk.Entry(self.master2, width=25)
+        self.data = ttk.Entry(self.master, width=25)
         self.data.place(x=315, y=530)
 
 
@@ -527,7 +529,7 @@ class Admin(Frame):
             self.data.delete(0, END)
 
 
-        self.btn_req = Button(self.master2, text='   Добавить информацию   ', fg='#F7D91E', bg='#000', borderwidth=3,command=input_record)
+        self.btn_req = Button(self.master, text='   Добавить информацию   ', fg='#F7D91E', bg='#000', borderwidth=3,command=input_record)
         self.btn_req.place(x=935, y=350)
 
         def select_record():
@@ -561,7 +563,7 @@ class Admin(Frame):
             self.data.insert(0, values[8])
 
 
-        self.select_button = Button(self.master2, text="   Выбрать информацию   ", fg='#F7D91E', bg='#000', borderwidth=3,command=select_record)
+        self.select_button = Button(self.master, text="   Выбрать информацию   ", fg='#F7D91E', bg='#000', borderwidth=3,command=select_record)
         self.select_button.place(x=935, y=400)
 
         def update_record():
@@ -581,7 +583,7 @@ class Admin(Frame):
             self.data.insert(0, END)
 
 
-        self.edit_button = Button(self.master2, text="   Изменить   ", fg='#F7D91E', bg='#000', borderwidth=3,
+        self.edit_button = Button(self.master, text="   Изменить   ", fg='#F7D91E', bg='#000', borderwidth=3,
                                   command=update_record)
         self.edit_button.place(x=935, y=450)
 
@@ -591,7 +593,7 @@ class Admin(Frame):
 
 
 
-        self.delete_button = Button(self.master2, text="   Удалить   ", fg='#F7D91E', bg='#000', borderwidth=3, command=delete_record)
+        self.delete_button = Button(self.master, text="   Удалить   ", fg='#F7D91E', bg='#000', borderwidth=3, command=delete_record)
         self.delete_button.place(x=935, y=500)
         my_file = r"file\my_file.txt"
 
@@ -603,7 +605,7 @@ class Admin(Frame):
                     print('load row:', row)
                     tree.insert("", 'end', values=row)
 
-        self.load_button = Button(self.master2, text="   Обновить   ", fg='#F7D91E', bg='#000', borderwidth=3,
+        self.load_button = Button(self.master, text="   Обновить   ", fg='#F7D91E', bg='#000', borderwidth=3,
                                   command=load_record)
         self.load_button.place(x=935, y=550)
 
@@ -617,9 +619,10 @@ class Admin(Frame):
                     print('save row:', row)
                     csvwriter.writerow(row)
 
-        self.save_button = Button(self.master2, text="   Сохранить   ", fg='#F7D91E', bg='#000', borderwidth=3,
+        self.save_button = Button(self.master, text="   Сохранить   ", fg='#F7D91E', bg='#000', borderwidth=3,
                                     command=save_record)
         self.save_button.place(x=935, y=600)
+
 
 
 if __name__ == '__main__':
