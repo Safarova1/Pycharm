@@ -1,3 +1,3 @@
 Kia,HJ456JG,yellow,2000,Rio,40
 Hyundai,CG587LG,pink,2000,Sonata,60
-Hyundai,HJ456JG,pink,2000,Sonata,60,Salmanov Omar Zakir,4,24,1200
+Hyundai,HJ456JG,pink,2000,Sonata,60,Salmanov Omar Zakir,4,01.05.2023,240
